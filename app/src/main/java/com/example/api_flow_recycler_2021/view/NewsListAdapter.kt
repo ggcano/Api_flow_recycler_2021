@@ -1,10 +1,11 @@
 package com.example.api_flow_recycler_2021.view
 
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api_flow_recycler_2021.R
+import com.example.api_flow_recycler_2021.databinding.ItemNewsArticleBinding
+
 import com.example.api_flow_recycler_2021.model.NewsArticle
 
 class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsItemViewHolder>() {
@@ -16,28 +17,30 @@ class NewsListAdapter: RecyclerView.Adapter<NewsListAdapter.NewsItemViewHolder>(
         notifyItemInserted(0)
     }
 
-    fun onDeleteItem (position: Int){
+    fun onDeleteItem(position: Int) {
         newsItems.removeAt(position)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = NewsItemViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_news_article, parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsItemViewHolder {
+        val binding = ItemNewsArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NewsItemViewHolder(binding)
+    }
 
     override fun getItemCount() = newsItems.size
 
     override fun onBindViewHolder(holder: NewsItemViewHolder, position: Int) {
         holder.bind(newsItems[position], position)
+
     }
 
-    inner class NewsItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class NewsItemViewHolder(viewBinding: ItemNewsArticleBinding) : RecyclerView.ViewHolder(viewBinding.root) {
 
-        private val imageView = view.newsImage
-        private val author = view.newsAuthor
-        private val title = view.newsTitle
-        private val publishedAt = view.newsPublishedAt
-        private val cardView = view.cardview
+        private val imageView = viewBinding.newsImage
+        private val author = viewBinding.newsAuthor
+        private val title = viewBinding.newsTitle
+        private val publishedAt = viewBinding.newsPublishedAt
+        private val cardView = viewBinding.cardview
 
 
         fun bind(newsItem: NewsArticle, position: Int) {
